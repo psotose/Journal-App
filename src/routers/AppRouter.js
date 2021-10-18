@@ -11,6 +11,8 @@ import { AuthRouter } from './AuthRouter';
 import { login } from '../actions/auth';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
+import { startLoadingNotes } from '../actions/notes';
+
 
 export const AppRouter = () => {
 
@@ -22,11 +24,13 @@ export const AppRouter = () => {
   // Hook useEffect para persistir el estado de autenticación
   useEffect(() => {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async(user) => {
       
       if (user?.uid) {
         dispatch( login(user.uid, user.displayName) );
         setIsLoggedIn( true );
+
+        dispatch( startLoadingNotes( user.uid ))
       } else {
         setIsLoggedIn( false );
       }
