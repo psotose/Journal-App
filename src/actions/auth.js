@@ -25,7 +25,11 @@ export const startLoginEmailPassword = (email, password) => {
       .catch((e) => {
         console.log(e);
         dispatch( finishLoading() );
-        Swal.fire('Error', e.message, 'error')
+        Swal.fire({
+          title: 'Error', 
+          text: e.message, 
+          icon: 'error'
+        })
       });
   };
 };
@@ -42,6 +46,11 @@ export const startRegisterWithEmailPasswordName = (email, password, name) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log("error code", errorCode, "error Message", errorMessage);
+        Swal.fire({
+          title: 'Error', 
+          text: errorMessage, 
+          icon: 'error'
+        })
       });
   };
 };
