@@ -23,6 +23,7 @@ export const startNewNote = () => {
     console.log(doc);
     
     dispatch( activeNote( doc.id, newNote));
+    dispatch( addNewNote(doc.id, newNote) );
   }
 };
 
@@ -33,6 +34,13 @@ export const activeNote = ( id, note ) => ({
     ...note
   }
 });
+
+export const addNewNote = ( id, note ) => ({
+  type: types.notesAddNew,
+  payload: {
+    id, ...note
+  }
+})
 
 export const startLoadingNotes = ( uid ) => {
   return async( dispatch ) => {
@@ -96,3 +104,23 @@ export const startUploading = ( file ) => {
     Swal.close();
   }
 }
+
+export const startDeletingNote = ( id ) => {
+  return async(dispatch, getState) => {
+		const uid = getState().auth.uid;
+		await deleteDoc(doc(db, `${uid}/journal/notes/${id}`)).then(() => {
+			Swal.fire('Borrado', 'elemento borrado exitosamente', 'success')
+		})
+
+		dispatch(deleteNote(id))
+	} 
+}
+
+export const deleteNote = (id) => ({
+	type: types.notesDelete,
+	payload: id
+});
+
+export const noteLogout = () => ({
+	type: types.notesLogoutCleaning
+});
