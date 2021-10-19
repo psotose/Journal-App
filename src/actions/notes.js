@@ -3,8 +3,9 @@ import { db } from "../firebase/firebaseConfig";
 import { types } from "../types/types";
 import { collection, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { loadNotes } from "../helpers/loadNotes";
+import { fileUpload } from '../helpers/fileUpload';
  
- 
+// react-journal
 export const startNewNote = () => { 
  
   return async (dispatch, getState) => { 
@@ -74,3 +75,24 @@ export const refreshNote = ( id, note ) => ({
     }
   }
 })
+
+export const startUploading = ( file ) => {
+  return async ( dispatch, getState ) => {
+    const { active:activeNote } = getState().notes;
+
+    Swal.fire({
+      title: 'Uploading...',
+      text: 'Please wait...',
+      allowOutsideClick: false,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+      }
+    })
+
+    const fileUrl = await fileUpload(file);
+    activeNote.url = fileUrl;
+
+    dispatch( startSaveNote(activeNote));
+    Swal.close();
+  }
+}
