@@ -6,16 +6,15 @@ import { getFirestore } from 'firebase/firestore';
 import { GoogleAuthProvider, onAuthStateChange } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBgEcyT8TCYGWaTbaP5rcu8oBquJ7hik0Q",
-  authDomain: "react-app-curso-2be39.firebaseapp.com",
-  projectId: "react-app-curso-2be39",
-  storageBucket: "react-app-curso-2be39.appspot.com",
-  messagingSenderId: "189705796477",
-  appId: "1:189705796477:web:a5347720ac7cfe3b39aa14"
-};  
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+};
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const db = getFirestore();
 const googleAuthProvider = new GoogleAuthProvider();

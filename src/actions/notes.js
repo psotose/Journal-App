@@ -7,7 +7,6 @@ import { fileUpload } from '../helpers/fileUpload';
  
 // react-journal
 export const startNewNote = () => { 
- 
   return async (dispatch, getState) => { 
  
     const uid = getState().auth.uid;
@@ -17,13 +16,15 @@ export const startNewNote = () => {
       body: '',
       date: new Date().getTime()
     }
- 
-
+    
+    try{
     const doc = await addDoc(collection(db, `${uid}/journal/notes`), newNote)
-    console.log(doc);
     
     dispatch( activeNote( doc.id, newNote));
     dispatch( addNewNote(doc.id, newNote) );
+    }catch (e){
+      console.log(e);
+    }
   }
 };
 
@@ -85,7 +86,7 @@ export const refreshNote = ( id, note ) => ({
 })
 
 export const startUploading = ( file ) => {
-  return async ( dispatch, getState ) => {
+  return async( dispatch, getState ) => {
     const { active:activeNote } = getState().notes;
 
     Swal.fire({

@@ -54,7 +54,7 @@ export const RegisterScreen = () => {
         {
           msgError &&
           (
-            <div className="auth__alert_error">
+            <div className="auth__alert-error">
              { msgError }
             </div>
           )
